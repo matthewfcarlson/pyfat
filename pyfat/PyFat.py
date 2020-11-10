@@ -185,7 +185,10 @@ class PyFat(object):
             mode = 'rb+'
 
         try:
-            self.__set_fp(open(filename, mode=mode))
+            if filename.lower().endswith(".vhd"):
+                self.__set_fp(PyVhd(filename, mode=mode))
+            else:
+                self.__set_fp(open(filename, mode=mode))
         except OSError as ex:
             raise PyFATException(f"Cannot open given file \'{filename}\'.",
                                  errno=ex.errno)
